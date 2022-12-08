@@ -1,0 +1,59 @@
+{
+  "name": "green-tea-api",
+  "version": "1.0.0",
+  "main": "app.ts",
+  "repository": "https://github.com/SMTanimur/green-tea-api",
+  "author": "SMTanimur",
+  "license": "ISC",
+  "keywords": [
+    "Social Media",
+    "Typescript",
+    "Node"
+  ],
+  "scripts": {
+    "serve": "node ./build/app.js",
+    "start": "nodemon --exec ts-node --files -r tsconfig-paths/register src/app.ts",
+    "build": "rimraf ./build && tsc && ef-tspm",
+    "postinstall": "rimraf ./build && tsc && ef-tspm"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/body-parser": "^1.19.2",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.14",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/node": "^18.11.9",
+    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/swagger-ui-express": "^4.1.3",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "eslint": "^8.0.1",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "prettier": "^2.8.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
+    "typescript": "*"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
+    "cookie": "^0.5.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "express-validator": "^6.14.2",
+    "http": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.7.3",
+    "socket.io": "^4.5.4",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.6.0"
+  }
+}

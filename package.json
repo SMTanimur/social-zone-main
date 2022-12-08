@@ -1,0 +1,22 @@
+{
+  "name": "social-zone-main",
+  "version": "1.0.0",
+  "description": "A social media website for everyone",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "start-client": "cd client && yarn dev",
+    "start-server": "cd server && yarn start",
+    "start": "concurrently \"yarn run start-server\" \"yarn run start-client\"",
+    "init-project": "concurrently \"cd frontend && yarn install\" \"cd server && yarn install\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

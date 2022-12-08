@@ -1,0 +1,159 @@
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
+
+:root {
+  --background: #f9f9f9;
+  --modalBackground: #fff;
+  --modalOverlayBackground: rgba(0, 0, 0, 0.3);
+  --scrollBarTrackBg: #cacaca;
+}
+
+:root.dark {
+  --background: #08070f;
+  --modalBackground: #100f17;
+  --modalOverlayBackground: rgba(0, 0, 0, 0.7);
+  --scrollBarTrackBg: #1e1c2a;
+}
+@layer base {
+  h1,
+  h2 {
+    @apply font-bold;
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-medium;
+  }
+
+  h1 {
+    @apply text-4xl leading-loose;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  a {
+    @apply text-indigo-600;
+  }
+
+  button,
+  button[type='button'],
+  button[type='submit'] {
+    @apply relative flex justify-center px-4 py-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-full outline-none hover:bg-indigo-700 focus:bg-indigo-900 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='date'],
+  textarea {
+    @apply relative block w-full px-6 py-3 text-gray-900 placeholder-gray-500 border border-gray-400 rounded-full outline-none appearance-none ring-transparent read-only:opacity-50 focus:z-10 focus:border-indigo-600 disabled:focus:hover:cursor-not-allowed;
+  }
+
+  input[type='checkbox'] {
+    @apply w-4 h-4 text-indigo-600 border-indigo-500 rounded disabled:hover:cursor-pointer read-only:opacity-50 focus:outline-none focus:ring-0;
+  }
+
+  textarea {
+    @apply rounded-md;
+    @apply resize-none;
+  }
+
+  label {
+    @apply text-gray-500;
+    @apply text-sm;
+  }
+
+  select {
+    @apply border-gray-300;
+    @apply rounded-full;
+    @apply px-4 py-3;
+  }
+}
+
+/* @layer components {
+  @responsive {
+    .text-shadow {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-shadow-md {
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .text-shadow-lg {
+      text-shadow: 0 15px 30px rgba(0, 0, 0, 0.11),
+        0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .text-shadow-none {
+      text-shadow: none;
+    }
+  }
+} */
+
+body {
+  margin: 0;
+  font-family: 'SF Pro Display', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  line-height: 1.6;
+  @apply bg-[#f7f7f7] dark:bg-indigo-1100;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.layout-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.popover {
+  top: 100%;
+  right: 0;
+  position: absolute;
+  will-change: transform;
+  animation: PopoverEnterAnimation 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+  opacity: 1;
+  z-index: 400;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+}
+.popover-arrow {
+  border-bottom: 10px solid rgb(255, 255, 255);
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  top: -10px;
+  position: absolute;
+  right: 6px;
+  width: 0;
+  height: 0;
+}
+.popover-content {
+  box-shadow: 0 1px 3.125rem 0 rgb(0 0 0 /20%);
+  border-radius: 0.125rem;
+  overflow: hidden;
+  background-color: #fff;
+}
+.popover:before {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  content: '';
+  height: 10px;
+  opacity: 0;
+  width: 100%;
+}
