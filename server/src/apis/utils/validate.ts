@@ -6,8 +6,5 @@ export const isEmail = (email: string) => {
   return REGEX_EMAIL.test(email);
 };
 
-export const isAdmin = (req: Request) => {
-  return req.user?.isAdmin;
-};
 
 export const isMongoId = (id: string) => mongoose.Types.ObjectId.isValid(id);

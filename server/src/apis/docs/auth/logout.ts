@@ -1,7 +1,7 @@
 /** User Logout
  * @swagger
  * /auth/logout:
- *  get:
+ *  delete:
  *    summary: User Logout
  *    tags: [Auth]
  *    responses:

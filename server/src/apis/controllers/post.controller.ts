@@ -10,84 +10,77 @@ const createPost = catchAsync(async (req: Request, res: Response) => {
   const response = await postService.newPostCreate(req);
   responseSuccess(res, response);
 });
-
-//@desc  user can update his post
-//@route /api/post/:id
-//@access  Private
+/** 
+@desc  user can update his post
+@route /api/post/:postId
+@access  Private
+*/
 const updatePost =catchAsync(async(req:Request,res:Response)=>{
-  const response = await postService.updatePost(req,res)
+  const response = await postService.updatePost(req)
   responseSuccess(res,response)
 })
 
-//@desc   Post delete by user
-//@route /api/post/:id
-//@access  Private
 
-const deletePost = catchAsync(async(req:Request,res:Response)=>{
-  const response = await postService.PostDelete(req,res)
-  responseSuccess(res,response)
-})
-
-//@desc  post like by user
-//@route  /api/post/:id
-//@access  Private
-
-const postLikeControl = catchAsync(async(req:Request,res:Response)=>{
-  const response = await postService.likePost(req,res)
-  responseSuccess(res,response)
-})
-
-//@desc  getUserPost by userId
-//@route  /api/post/:id
-//@access  Private
-const getPost = catchAsync(async (req:Request,res:Response)=>{
-  const response = await postService.getUserPost(req)
-   responseSuccess(res,response)
-})
 
 //@desc getUserPost by userId
-//@route  /api/post/all/:userId
+//@route  /api/post/:username
 //@access  Private
 
 const getUserPosts = catchAsync(async(req:Request,res:Response)=>{
-  const response = await postService.getUsersPosts(req)
+  const response = await postService.getUserPost(req)
   responseSuccess(res,response)
 })
 
-//@desc getPosts
-//@route  /api/post/timeline
-//@access Public
+/**
+ * @description Like on post
+ * @route  POST /api/post/like/:postId
+ * @access  Private
+ */
 
-const getPosts =catchAsync(async(req:Request,res:Response)=>{
-  const response = await postService.getPosts(req)
+const LikeOnPost = catchAsync(async(req:Request,res:Response)=>{
+  const response = await postService.postLike(req)
   responseSuccess(res,response)
 })
 
-//@desc comment create on post
-//@route /api/post/:id
-//@access  Private
- const commentCreate = catchAsync(async(req:Request,res:Response)=>{
-  const response = await postService.createComment(req,res)
-  responseSuccess(res,response)
- })
+/**
+ * @description  delete your post by postId
+ * @route DELETE /post/:postId
+ * @access  Private
+ */
 
- //@desc comment delete 
-//@route /api/post/:postId/:commentId
-//@access Private
-
- const commentDelete = catchAsync(async(req:Request,res:Response)=>{
-  const response = await postService.deletePostComment(req)
+const DeletePost= catchAsync(async(req:Request,res:Response)=>{
+  const response = await postService.deletePost(req)
   responseSuccess(res,response)
- })
+})
+
+/**
+ * @description  user get a single post
+ * @route  GET /api/post/:postId
+ * @access  Private
+ */
+
+  const getPost= catchAsync(async(req:Request,res:Response)=>{
+    const response = await postService.getSinglePost(req)
+    responseSuccess(res,response)
+  })
+
+  /**
+   * @description  get  Likes on a single post
+   * @route  GET /api/post/likes/:postId
+   * @access  Private
+   */
+
+  const GetLikesOnPost = catchAsync(async(req:Request,res:Response)=>{
+    const response = await postService.getPostLikes(req)
+    responseSuccess(res,response)
+  })
 const postController = {
   createPost,
   updatePost,
-  deletePost,
-  postLikeControl,
-  getPost,
   getUserPosts,
-  commentCreate,
-  commentDelete,
-  getPosts
+  LikeOnPost,
+  DeletePost,
+  getPost,
+  GetLikesOnPost
 };
 export default postController;

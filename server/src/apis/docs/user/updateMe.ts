@@ -1,36 +1,34 @@
 /*** User Update
  * @swagger
- * /user/{id}:
- *  post:
+ * /user/{username}/edit:
+ *  patch:
  *      summary: User id
  *      tags: [User]
  *      parameters:
  *       - in: path
- *         name: id
+ *         name: username
  *         required: true
  *         schema:
  *           type: string
- *           description: User ID
+ *           description: username
  *      requestBody:
  *          content:
  *            application/json:
  *              schema:
  *                type: object
  *                properties:
- *                  username:
+ *                  firstname:
  *                    type: string
- *                    example: tanimur
-  *                  city:
+ *                    example: SM
+ *                  lastname:
  *                    type: string
- *                    example: Dhaka
- *                  from:
+ *                    example: Tanimur
+ *                  bio:
  *                    type: string
- *                    example: Dhaka
- *                  profilePicture:
+ *                    example: this is me
+ *                  gender:
  *                      type: string
- *                  coverPicture:
- *                      type: string
- *                     
+ *
  *      responses:
  *          200:
  *              description: Success

@@ -1,8 +1,8 @@
-/**Get Post
+/**Get Post likes
  * @swagger
  *  /post/{postId}:
  *    get:
- *      summary: Get Post by postId
+ *      summary: Get Post Likes by postId
  *      tags: [Post]
  *      parameters:
  *        - in: path

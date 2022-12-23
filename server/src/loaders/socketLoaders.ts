@@ -54,7 +54,7 @@ const socketLoaders = (app: Express) => {
 
   server.listen(env.app.port, () => {
     console.log(`API listening on port ${env.app.port}!`);
-  });
+  })
   return io;
 };
 

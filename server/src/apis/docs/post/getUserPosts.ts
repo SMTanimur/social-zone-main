@@ -1,12 +1,12 @@
-/**Get Posts
+/**Get User Posts
  * @swagger
- *  /post/all/{userId}:
+ *  /post/{username}:
  *    get:
  *     summary: get User Posts by userId
  *     tags: [Post]
  *     parameters:
  *        - in: path
- *          name: userId
+ *          name: username
  *          schema:
  *            type: string
  *     responses:

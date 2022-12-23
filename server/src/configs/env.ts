@@ -16,10 +16,18 @@ const env = {
   domain:{
     CLIENT: process.env.CLIENT_URL
   },
+  cloudinary: {
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  },
   passport: {
+    SESSION_SECRET:process.env.SESSION_SECRET || 'secret',
+    sessionName: process.env.SESSION_NAME || 'szone_sid',
     jwtSecretKey: process.env.JWT_SECRET_KEY || "SECRET_KEY",
     expiredAccessToken: process.env.EXPIRED_ACCESS_TOKEN || "30d",
     expiredRefreshToken: process.env.EXPIRED_REFRESH_TOKEN || "365d",
+    USER_VERIFICATION_TOKEN: process.env.USER_VERIFICATION_TOKEN_SECRET || 'dfjdkjf'
   },
 };
 

@@ -6,24 +6,12 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Green tea api",
+      title: "Social Zone api",
       version: "1.0.0",
       description: "A simple api for Social application",
     },
     servers: [{ url: "http://localhost:8000/api" }],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          in: "header",
-          bearerFormat: "JWT",
-        },
-      },
-    },
-    security: {
-      bearerAuth: [],
-    },
+    components: {},
   },
   apis: ["**/*.ts"],
 };

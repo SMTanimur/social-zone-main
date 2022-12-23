@@ -1,17 +1,17 @@
-/**Post like or unlike
+/** Follow user
  * @swagger
- *  /post/like/{postId}:
+ *  /follow/{follow_id}:
  *    post:
  *      summary: Post Like Request
- *      tags: [Post]
+ *      tags: [Follow]
  *      parameters:
  *        - in: path
- *          name: postId
+ *          name: follow_id
  *          required: true
  *          schema:
  *           type: string
- *           description: exact post id
+ *           description: exact userId
  *      responses:
  *              200:
- *               description: successfully like
+ *               description: successfully followed
  */

@@ -16,7 +16,7 @@ const signUp = async (req: Request) => {
     const newUser = new User({ email, username, password: hashed });
     const savedUser = (await newUser.save()).toObject();
     const { password, ...user } = savedUser;
-    const response = { message: "User Register successfully", data: user, status:STATUS.CREATED};
+    const response = { message: "User Register successfully", data: user, status: STATUS.CREATED };
     return response;
   } else {
     throw new ApiError(STATUS.NOT_ACCEPTABLE, "Email already exit!");
@@ -52,22 +52,13 @@ const signIn = async (req: Request, res: Response) => {
   }
 };
 
-const logOut = async (res: Response) => {
-  res.set(
-    "Set-Cookie",
-    cookie.serialize("green_sid", "", {
-      httpOnly: true,
-      secure: true,
-      maxAge: +new Date(0),
-      sameSite: "none",
-      path: "/",
-    }),
-  );
-
+const logOut = async (req: Request, res: Response) => {
+ await req.session.destroy(() => null);
+  res.clearCookie(env.passport.sessionName || "szone_sid");
+  req.logOut(() => null);
   const response = { message: "User successfully logout!" };
   return response;
 };
-
 const authServices = {
   signUp,
   signIn,

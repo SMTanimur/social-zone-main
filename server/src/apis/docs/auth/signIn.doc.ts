@@ -10,9 +10,9 @@
  *            schema:
  *               type: object
  *               properties:
- *                 email:
+ *                 username:
  *                   type: string
- *                   example: smtrstar@gmail.com
+ *                   example: tanimur
  *                 password:
  *                   type: string
  *                   example: 123456

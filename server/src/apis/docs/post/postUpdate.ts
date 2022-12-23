@@ -1,12 +1,12 @@
 /** Post update
  * @swagger
- * /post/{id}:
+ * /post/{postId}:
  *   patch:
  *    summary: Post update
  *    tags: [Post]
  *    parameters:
  *       - in: path
- *         name: id
+ *         name: postId
  *         required: true
  *         schema:
  *            type: string
@@ -17,11 +17,9 @@
  *            schema:
  *               type: object
  *               properties:
- *                 desc :
+ *                 description :
  *                   type: string
  *                   example: this is new post
- *                 author :
- *                    type: string
  *    responses:
  *       200:
  *         description: Success

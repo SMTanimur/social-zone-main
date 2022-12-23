@@ -1,6 +1,6 @@
 /** User Login
  * @swagger
- * /post/create:
+ * /post:
  *  post:
  *    summary: Post Create
  *    tags: [Post]
@@ -10,11 +10,12 @@
  *            schema:
  *               type: object
  *               properties:
- *                 desc :
+ *                 description:
  *                   type: string
  *                   example: this is new post
- *                 author :
- *                    type: string
+ *                 privacy:
+ *                   type: string
+ *                   example: public
  *    responses:
  *       200:
  *         description: Success

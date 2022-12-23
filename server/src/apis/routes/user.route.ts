@@ -1,14 +1,11 @@
 import { Router } from "express";
 import userController from "../controllers/user.controller";
-import tokenMiddleware from "../middlewares/token.middleware";
+import tokenMiddleware from "../middlewares/session.middleware";
 
 const userRoute = Router();
 
-userRoute.get("/:username", tokenMiddleware.verifyToken, userController.GetUser);
-userRoute.post("/:id", tokenMiddleware.verifyToken, userController.updateMe);
-userRoute.delete("/:id", tokenMiddleware.verifyToken, userController.deleteAccount);
-userRoute.get("/", tokenMiddleware.verifyToken, userController.getUserInfo);
-userRoute.get("/friends/:id", tokenMiddleware.verifyToken, userController.userFriends);
-userRoute.get("/find", tokenMiddleware.verifyToken, userController.searchUsers);
-userRoute.delete("/:id/friend", tokenMiddleware.verifyToken, userController.removeFriend);
+userRoute.get("/:username", userController.GetUser);
+userRoute.patch("/:username/edit",  userController.updateMe);
+userRoute.delete("/:id", userController.deleteAccount);
+userRoute.get("/",  userController.getUserInfo);
 export default userRoute;

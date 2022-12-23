@@ -1,17 +1,32 @@
 import { Router } from "express";
+import { schemas, validateBody } from "../../validators/validations";
 import postController from "../controllers/post.controller";
+import sessionMiddleware from "../middlewares/session.middleware";
 
+const postRoute = Router();
 
-
-const postRoute = Router()
-
-postRoute.post('/create',postController.createPost)
-postRoute.patch('/:id',postController.updatePost)
-postRoute.delete('/:id',postController.deletePost)
-postRoute.get('/timeline',postController.getPosts)
-postRoute.get('/:id',postController.getPost)
-postRoute.get('/all/:userId',postController.getUserPosts)
-postRoute.post('/:id/like',postController.postLikeControl)
-postRoute.post('/:id',postController.commentCreate)
-postRoute.delete('/:postId/:commentId',postController.commentDelete)
-export default postRoute
+postRoute.post("/", validateBody(schemas.createPostSchema), postController.createPost);
+postRoute.patch(
+  "/:postId",
+  sessionMiddleware.validateObjectID("postId"),
+  validateBody(schemas.createPostSchema),
+  postController.updatePost,
+);
+postRoute.get("/:username", postController.getUserPosts);
+postRoute.post(
+  "/like/:postId",
+  sessionMiddleware.validateObjectID("postId"),
+  postController.LikeOnPost,
+);
+postRoute.delete(
+  "/:postId",
+  sessionMiddleware.validateObjectID("postId"),
+  postController.DeletePost,
+);
+postRoute.get("/:postId", sessionMiddleware.validateObjectID("postId"), postController.getPost);
+postRoute.get(
+  "/likes/:postId",
+  sessionMiddleware.validateObjectID("postId"),
+  postController.GetLikesOnPost,
+);
+export default postRoute;

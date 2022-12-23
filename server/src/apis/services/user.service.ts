@@ -2,14 +2,71 @@ import { STATUS } from "./../constants/status";
 import { Request, Response } from "express";
 import User from "../models/user";
 import { ApiError } from "../utils/api-error";
+import Follow from "../models/FollowSchema";
+import { IUpdate, IUser } from "../../@types/user";
 
 const getUser = async (req: Request) => {
   const { username } = req.params;
-  console.log(username)
   const user = await User.findOne({ username: username }).select("-password");
   if (!user) throw new ApiError(STATUS.NOT_FOUND, "user not found");
-  // @ts-ignore
-  return user._doc;
+  const myFollowingDoc = await Follow.find({ user: user?._id });
+  const myFollowing = myFollowingDoc.map((user) => user.target);
+  const [agg] = await User.aggregate([
+    {
+      $match: { _id: user._id },
+    },
+    {
+      $lookup: {
+        // lookup for followers
+        from: "follows",
+        localField: "_id",
+        foreignField: "target",
+        as: "followers",
+      },
+    },
+    {
+      $lookup: {
+        // lookup for following
+        from: "follows",
+        localField: "_id",
+        foreignField: "user",
+        as: "following",
+      },
+    },
+    {
+      $addFields: {
+        isFollowing: { $in: ["$_id", myFollowing] },
+        isOwnProfile: {
+          $eq: ["$$CURRENT.username", req.user.username],
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        id: "$_id",
+        info: 1,
+        isEmailValidated: 1,
+        email: 1,
+        profilePicture: 1,
+        coverPhoto: 1,
+        username: 1,
+        firstname: 1,
+        lastname: 1,
+        dateJoined: 1,
+        followingCount: { $size: "$following" },
+        followersCount: { $size: "$followers" },
+        isFollowing: 1,
+        isOwnProfile: 1,
+      },
+    },
+  ]);
+
+  if (!agg) return new ApiError(404, "User not found.");
+  return {
+    ...agg,
+    fullname: user?.fullname,
+  };
 };
 
 const getUserInfo = async (res: Response) => {
@@ -44,16 +101,36 @@ const getUserInfo = async (res: Response) => {
 };
 
 const updateMe = async (req: Request) => {
-  const id = req.params.id;
   try {
-    const userUpdate = await User.findByIdAndUpdate({ _id: id }, req.body, { new: true })
-      .select({ password: 0 })
-      .lean();
-    if (!userUpdate) throw new ApiError(STATUS.NOT_FOUND, "User not found");
-    const response = { message: " user successfully updated", data: userUpdate };
-    return response;
-  } catch (error) {
-    throw new ApiError(STATUS.INTERNAL_SERVER_ERROR, "this is Server Error");
+    const { username } = req.params;
+    const { firstname, lastname, bio, birthday, gender } = req.body;
+    const update: IUpdate = { info: {} };
+    if (username !== (req.user as IUser).username)
+      return new ApiError(STATUS.NOT_FOUND, "User not found");
+
+    if (typeof firstname !== "undefined") update.firstname = firstname;
+    if (typeof lastname !== "undefined") update.lastname = lastname;
+    if (bio) update.info!.bio = bio;
+    if (birthday) update.info!.birthday = birthday;
+    if (gender) update.info!.gender = gender;
+
+    const newUser = await User.findOneAndUpdate(
+      { username },
+      {
+        $set: update,
+      },
+      {
+        new: true,
+      },
+    );
+
+    return {
+      message: "successfully updated your profile",
+      user: newUser?.toUserJSON(),
+    };
+  } catch (e) {
+    console.log(e);
+    throw new ApiError(STATUS.BAD_REQUEST, "Server Error");
   }
 };
 
@@ -73,69 +150,11 @@ const deleteAccount = async (req: Request, res: Response) => {
   }
 };
 
-// get Friends
-const getFriend = async (req: Request) => {
-  const user = await User.findById(req.params.id).populate("friends", "username profilePicture");
-  if (!user) {
-    throw new ApiError(STATUS.NOT_FOUND, "user not found");
-  } else {
-    return {
-      status: STATUS.OK,
-      friends: user.friends,
-    };
-  }
-};
-
-const searchUsers = async (req: Request, res: Response) => {
-  const { search } = req.query;
-  const username = new RegExp(search as string, "i");
-  const users = await User.find({
-    username,
-  }).find({ _id: { $ne: res.locals.user.id } });
-  return users;
-};
-
-const removeFriend = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const currentUserId = res.locals.user.id;
-  const user = await User.findByIdAndUpdate(
-    currentUserId,
-    {
-      $pull: {
-        friends: id,
-      },
-    },
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
-  await User.findByIdAndUpdate(
-    id,
-    {
-      $pull: {
-        friends: currentUserId,
-      },
-    },
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
-
-  return {
-    message: "successfully remove friend",
-    user,
-  };
-};
 const userService = {
   getUser,
   getUserInfo,
   updateMe,
   deleteAccount,
-  getFriend,
-  searchUsers,
-  removeFriend,
 };
 
 export default userService;

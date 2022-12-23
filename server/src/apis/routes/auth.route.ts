@@ -1,24 +1,24 @@
 import { Router } from "express";
+import { schemas, validateBody } from "../../validators/validations";
 import authControllers from "../controllers/auth.controller";
-import authMiddleware from "../middlewares/auth.middleware";
-import tokenMiddleware from "../middlewares/token.middleware";
+import sessionMiddleware from "../middlewares/session.middleware";
+
 
 const authRoutes = Router();
 
 authRoutes.post(
   "/sign-up",
-  authMiddleware.signUpRules(),
-  authMiddleware.rateLimitRequest.signUp,
+  validateBody(schemas.registerSchema),
   authControllers.SignUp,
 );
 
 authRoutes.post(
   "/sign-in",
-  authMiddleware.signInRules(),
-  authMiddleware.rateLimitRequest.signIn,
-  authControllers.signIN,
+  validateBody(schemas.loginSchema),
+  authControllers.login,
 );
 
-authRoutes.get("/logout", tokenMiddleware.verifyToken, authControllers.logOut);
+authRoutes.delete("/logout",sessionMiddleware.isAuthenticated , authControllers.logOut);
+authRoutes.get("/check-session",sessionMiddleware.isAuthenticated , authControllers.checkSession);
 
 export default authRoutes;

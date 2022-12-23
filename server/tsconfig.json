@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es2017",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "module": "commonjs",
     "rootDir": "./src",
     "allowJs": true,
