@@ -7,7 +7,7 @@ import LogoutModal from '~/components/modals/LogoutModal';
 import Notification from '~/components/Notification';
 import ThemeToggler from '~/components/shared/ThemeToggler';
 import { PATH } from '~/constants/path';
-import useWindowDimensions from '~/Hooks/useMediaQuery';
+import { useMediaQuery } from '~/Hooks/useMediaQuery';
 
 import useModal from '~/Hooks/useModal';
 import { useUser } from '~/Hooks/useUser';
@@ -15,9 +15,9 @@ import NavBarMobile from './NavBarMobile';
 
 const Navbar = () => {
   const { data: user } = useUser();
-  const [laptop, setLaptop] = useState(true);
+  // const [laptop, setLaptop] = useState(true);
   const { currentUser, theme } = useAppStore();
-
+  const laptop = useMediaQuery('laptop')
   // browser code
 
   const { isShow, toggleModal } = useModal();

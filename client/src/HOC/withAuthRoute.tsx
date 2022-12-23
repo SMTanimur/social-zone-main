@@ -1,22 +1,29 @@
 
-import { useUser } from "@Hooks/useUser";
-import { useEffect } from "react";
-import Router from 'next/router'
-import { useAppStore } from "@app/store";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-export const withAuthRoute = <T extends void>(
-  Component: React.ComponentType<T>
-) => {
-  
-  const RequireAuthentication = (props: any) => {
-    const {user}=useAppStore()
-    useEffect(() => {
-      if (!user) {
-        Router.push("/login");
-      }
-    }, [user]);
-    
-    return user ? <Component {...props} /> : null;
+const withAuth =  (Component:any) => {
+  const AuthenticatedComponent = () => {
+      const router = useRouter();
+      const [data, setData] = useState()
+
+      useEffect(() => {
+          const getUser = async () => {
+              const response = await fetch('http://localhost:4000/user/me');
+              const userData = await response.json();
+              if (!userData) {
+                  router.push('/admin/login');
+              } else {
+                  setData(userData);
+              }  
+          };
+          getUser();
+      }, []);
+
+      return !!data ? <Component data={data} /> : null; // Render whatever you want while the authentication occurs
   };
-  return RequireAuthentication;
-};
+
+  return AuthenticatedComponent;
+}
+
+export default withAuth

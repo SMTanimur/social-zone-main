@@ -41,10 +41,12 @@ const signUpPage: React.FC = () => {
     register,
     handleSubmit,
     getValues,
+    setValue,
     formState: { errors, touchedFields },
   } = useForm<IForm>({
     resolver: yupResolver(Schema),
   });
+  
   const router = useRouter();
   const passwordsMatch = getValues('password') === getValues('repeatPassword');
 

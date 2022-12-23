@@ -1,28 +1,13 @@
 import { useEffect, useState } from 'react';
 
-type WindowDimentions = {
-    width: number | undefined;
-    height: number | undefined;
+export const useMediaQuery = (breakpoint: string) => {
+  const [matches, setMatches] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia(breakpoint);
+    const listener = () => setMatches(media.matches);
+    listener();
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, [matches, breakpoint]);
+  return matches;
 };
-
-const useWindowDimensions = (): WindowDimentions => {
-    const [windowDimensions, setWindowDimensions] = useState<WindowDimentions>({
-        width: undefined,
-        height: undefined,
-    });
-    useEffect(() => {
-        function handleResize(): void {
-            setWindowDimensions({
-                width: window.innerWidth,
-                height: window.innerHeight,
-            });
-        }
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return (): void => window.removeEventListener('resize', handleResize);
-    }, []); // Empty array ensures that effect is only run on mount
-
-    return windowDimensions;
-};
-
-export default useWindowDimensions;

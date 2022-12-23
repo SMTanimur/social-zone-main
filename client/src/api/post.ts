@@ -7,6 +7,9 @@ const postApi ={
     const path = `/api/post/create`
     return await api.post(path,payload)
   },
+  postTimeline: async ({queryKey}:any)=>{
+   const {}=queryKey
+  }
 }
 
 export default postApi
